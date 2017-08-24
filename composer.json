@@ -1,0 +1,19 @@
+{
+  "name": "mhndev/digipeyk-logistic-client",
+  "license": "MIT",
+  "type": "library",
+  "Description": "Digipeyk Logistic SDK",
+  "keywords":["digipeyk", "courier", "delivery", "php", "logistic client"],
+  "autoload": {
+    "psr-4": {
+      "mhndev\\digipeykLogisticClient\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=7.0",
+    "mhndev/php-std": "1.*",
+    "mhndev/value-objects" : "1.*",
+    "psr/http-message": "*"
+  }
+
+}
