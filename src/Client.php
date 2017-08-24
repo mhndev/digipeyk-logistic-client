@@ -1,7 +1,9 @@
 <?php
 namespace mhndev\digipeykLogisticClient;
 
+use mhndev\digipeykLogisticClient\entities\EntityOrder;
 use mhndev\digipeykLogisticClient\interfaces\iHttpClient;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class Client
@@ -20,6 +22,18 @@ class Client implements iClient
      */
     protected $token;
 
+
+    /**
+     * array
+     */
+    const endpoints = [
+            'createOrder'  => 'https://digipeyk.com/order',
+            'cancelOrder'  => 'https://digipeyk.com/order/cancel-customer',
+            'editOrder'    => 'https://digipeyk.com/order',
+            'listMyOrders' => 'https://digipeyk.com/order/me',
+    ];
+
+
     /**
      * Client constructor.
      * @param iHttpClient $httpClient
@@ -37,11 +51,14 @@ class Client implements iClient
      */
     function createOrder(iEntityOrder $order)
     {
-        $this->httpClient->sendRequest(
+        $response = $this->httpClient->sendRequest(
             'POST',
+            self::endpoints[__METHOD__],
             json_encode($order->toArray()),
             ['Content-type' => 'application/json', 'Authorization' => 'Bearer '.$this->getToken()]
         );
+
+        return EntityOrder::fromOptions($this->getJsonResult($response));
     }
 
     /**
@@ -50,7 +67,14 @@ class Client implements iClient
      */
     function cancelOrder(iEntityOrder $order)
     {
-        // TODO: Implement cancelOrder() method.
+        $response = $this->httpClient->sendRequest(
+            'PATCH',
+            self::endpoints[__METHOD__],
+            json_encode($order->toArray()),
+            ['Content-type' => 'application/json', 'Authorization' => 'Bearer '.$this->getToken()]
+        );
+
+        return EntityOrder::fromOptions($this->getJsonResult($response));
     }
 
     /**
@@ -59,7 +83,14 @@ class Client implements iClient
      */
     function editOrder(iEntityOrder $order)
     {
-        // TODO: Implement editOrder() method.
+        $response = $this->httpClient->sendRequest(
+            'PUT',
+            self::endpoints[__METHOD__],
+            json_encode($order->toArray()),
+            ['Content-type' => 'application/json', 'Authorization' => 'Bearer '.$this->getToken()]
+        );
+
+        return EntityOrder::fromOptions($this->getJsonResult($response));
     }
 
     /**
@@ -70,7 +101,14 @@ class Client implements iClient
      */
     function listMyOrders($offset = 0, $limit = 10, array $sort = [])
     {
-        // TODO: Implement listMyOrders() method.
+        $response = $this->httpClient->sendRequest(
+            'GET',
+            self::endpoints[__METHOD__],
+            null,
+            ['Content-type' => 'application/json', 'Authorization' => 'Bearer '.$this->getToken()]
+        );
+
+        return EntityOrder::fromOptions($this->getJsonResult($response));
     }
 
     /**
@@ -79,8 +117,10 @@ class Client implements iClient
      */
     function getOrderTrackingLink(iEntityOrder $order)
     {
-        // TODO: Implement getOrderTrackingLink() method.
+        return 'https://digipeyk.com/t/'.$order->getIdentifier();
     }
+
+
 
     /**
      * @return iHttpClient
@@ -96,6 +136,16 @@ class Client implements iClient
     public function getToken(): string
     {
         return $this->token;
+    }
+
+
+    /**
+     * @param ResponseInterface $response
+     * @return array
+     */
+    private function getJsonResult(ResponseInterface $response)
+    {
+        return json_decode($response->getBody()->getContents(), true);
     }
 
 }

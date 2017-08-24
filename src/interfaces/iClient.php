@@ -1,12 +1,19 @@
 <?php
 namespace mhndev\digipeykLogisticClient;
 
+use mhndev\digipeykLogisticClient\interfaces\iHttpClient;
+
 /**
  * Interface iClient
  * @package mhndev\digipeykLogisticClient
  */
 interface iClient
 {
+
+    /**
+     * @return iHttpClient
+     */
+    function getHttpClient();
 
     /**
      * @param iEntityOrder $order

@@ -87,7 +87,7 @@ class ClientPersist extends Client implements iClient
      */
     function getOrderTrackingLink(iEntityOrder $order)
     {
-        return 'https://digipeyk.com/t/'.$order->getIdentifier();
+        return parent::getOrderTrackingLink($order);
     }
 
 

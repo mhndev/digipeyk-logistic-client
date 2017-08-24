@@ -6,6 +6,7 @@ use mhndev\digipeykLogisticClient\valueObjects\OrderItem;
 use mhndev\digipeykLogisticClient\valueObjects\OrderPrice;
 use mhndev\digipeykLogisticClient\valueObjects\OrderStatus;
 use mhndev\phpStd\Collection;
+use mhndev\phpStd\ObjectBuilder;
 
 /**
  * Class EntityOrder
@@ -13,6 +14,9 @@ use mhndev\phpStd\Collection;
  */
 class EntityOrder implements iEntityOrder
 {
+
+    use ObjectBuilder;
+
 
     /**
      * @var mixed

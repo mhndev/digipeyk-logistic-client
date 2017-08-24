@@ -1,7 +1,6 @@
 <?php
 namespace mhndev\digipeykLogisticClient\interfaces;
 
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -11,15 +10,18 @@ use Psr\Http\Message\ResponseInterface;
 interface iHttpClient
 {
 
-
     /**
      * @param string $method
+     * @param string $uri
      * @param string $body
      * @param array $headers
      * @return ResponseInterface
      */
-    function sendRequest($method = 'GET', $body, array $headers = []) : ResponseInterface;
-
-
+    function sendRequest(
+        string $method = 'GET',
+        string $uri,
+        string $body,
+        array $headers = []
+    ) : ResponseInterface;
 
 }
