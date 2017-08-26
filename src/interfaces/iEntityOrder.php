@@ -2,6 +2,7 @@
 namespace mhndev\digipeykLogisticClient;
 
 use mhndev\digipeykLogisticClient\valueObjects\OrderItem;
+use mhndev\digipeykLogisticClient\valueObjects\OrderPayment;
 use mhndev\digipeykLogisticClient\valueObjects\OrderStatus;
 use mhndev\phpStd\Collection;
 
@@ -57,6 +58,22 @@ interface iEntityOrder
      * @return iEntityOrder
      */
     function unlock() :iEntityOrder ;
+
+    /**
+     * @return bool
+     */
+    function isPaid();
+
+    /**
+     * @return OrderPayment
+     */
+    function getPayment();
+
+    /**
+     * @param OrderPayment $payment
+     * @return $this
+     */
+    function pay(OrderPayment $payment);
 
     /**
      * @return array

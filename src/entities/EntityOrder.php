@@ -3,6 +3,7 @@ namespace mhndev\digipeykLogisticClient\entities;
 
 use mhndev\digipeykLogisticClient\iEntityOrder;
 use mhndev\digipeykLogisticClient\valueObjects\OrderItem;
+use mhndev\digipeykLogisticClient\valueObjects\OrderPayment;
 use mhndev\digipeykLogisticClient\valueObjects\OrderPrice;
 use mhndev\digipeykLogisticClient\valueObjects\OrderStatus;
 use mhndev\phpStd\Collection;
@@ -47,6 +48,16 @@ class EntityOrder implements iEntityOrder
      * @var bool
      */
     protected $is_locked;
+
+    /**
+     * @var bool
+     */
+    protected $is_paid;
+
+    /**
+     * @var OrderPayment
+     */
+    protected $payment;
 
 
     /**
@@ -156,7 +167,36 @@ class EntityOrder implements iEntityOrder
             'status'          => $this->getStatus()->toArray(),
             'ownerIdentifier' => $this->getOwnerIdentifier(),
             'is_locked'       => $this->isLocked(),
+            'is_paid'         => $this->isPaid(),
+            'payment'         => $this->getPayment()->toArray(),
             'items'           => $this->getItems()->toArray()
         ];
+    }
+
+    /**
+     * @return bool
+     */
+    function isPaid()
+    {
+        return $this->is_paid;
+    }
+
+    /**
+     * @return OrderPayment
+     */
+    function getPayment()
+    {
+        return $this->payment;
+    }
+
+    /**
+     * @param OrderPayment $payment
+     * @return $this
+     */
+    function pay(OrderPayment $payment)
+    {
+        $this->payment = $payment;
+
+        return $this;
     }
 }
