@@ -1,6 +1,7 @@
 <?php
 namespace mhndev\digipeykLogisticClient\entities;
 
+use mhndev\digipeykLogisticClient\iEntity;
 use mhndev\digipeykLogisticClient\iEntityOrder;
 use mhndev\digipeykLogisticClient\valueObjects\OrderEvent;
 use mhndev\digipeykLogisticClient\valueObjects\OrderItem;
@@ -64,6 +65,13 @@ class EntityOrder implements iEntityOrder
      * @var \DateTime
      */
     protected $created_at;
+
+
+    /**
+     * @var \DateTime
+     */
+    protected $updated_at;
+
 
     /**
      * @var array of OrderEvent
@@ -222,6 +230,41 @@ class EntityOrder implements iEntityOrder
         $this->payment = $payment;
 
         return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt(): \DateTime
+    {
+        return $this->updated_at;
+    }
+
+
+
+    /**
+     * @param array $array
+     * @return iEntity
+     */
+    function fromArray(array $array)
+    {
+        // TODO: Implement fromArray() method.
+    }
+
+    /**
+     * @return array
+     */
+    function preview()
+    {
+        // TODO: Implement preview() method.
     }
 
 }

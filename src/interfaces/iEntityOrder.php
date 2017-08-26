@@ -10,7 +10,7 @@ use mhndev\phpStd\Collection;
  * Interface iEntityOrder
  * @package mhndev\digipeykLogisticClient
  */
-interface iEntityOrder
+interface iEntityOrder extends iEntity
 {
 
     /**

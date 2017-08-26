@@ -22,7 +22,10 @@ class ClientPersist extends Client implements iClient
      * @param iHttpClient $httpClient
      * @param iOrderRepository $orderRepository
      */
-    function __construct(iHttpClient $httpClient, iOrderRepository $orderRepository)
+    function __construct(
+        iHttpClient $httpClient,
+        iOrderRepository $orderRepository
+    )
     {
         parent::__construct($httpClient);
 

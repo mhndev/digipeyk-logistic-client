@@ -37,12 +37,10 @@ class Client implements iClient
     /**
      * Client constructor.
      * @param iHttpClient $httpClient
-     * @param string $token
      */
-    function __construct(iHttpClient $httpClient, string $token)
+    function __construct(iHttpClient $httpClient)
     {
         $this->httpClient = $httpClient;
-        $this->token      = $token;
     }
 
     /**
@@ -136,6 +134,17 @@ class Client implements iClient
     public function getToken(): string
     {
         return $this->token;
+    }
+
+    /**
+     * @param string $token
+     * @return $this
+     */
+    public function setToken(string $token)
+    {
+        $this->token = $token;
+
+        return $this;
     }
 
 
