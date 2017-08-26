@@ -2,6 +2,7 @@
 namespace mhndev\digipeykLogisticClient\entities;
 
 use mhndev\digipeykLogisticClient\iEntityOrder;
+use mhndev\digipeykLogisticClient\valueObjects\OrderEvent;
 use mhndev\digipeykLogisticClient\valueObjects\OrderItem;
 use mhndev\digipeykLogisticClient\valueObjects\OrderPayment;
 use mhndev\digipeykLogisticClient\valueObjects\OrderPrice;
@@ -58,6 +59,16 @@ class EntityOrder implements iEntityOrder
      * @var OrderPayment
      */
     protected $payment;
+
+    /**
+     * @var \DateTime
+     */
+    protected $created_at;
+
+    /**
+     * @var array of OrderEvent
+     */
+    protected $events;
 
 
     /**
@@ -189,6 +200,19 @@ class EntityOrder implements iEntityOrder
         return $this->payment;
     }
 
+
+    /**
+     * @param OrderEvent $event
+     * @return $this
+     */
+    function addEvent(OrderEvent $event)
+    {
+        $this->events[] = $event;
+
+        return $this;
+    }
+
+
     /**
      * @param OrderPayment $payment
      * @return $this
@@ -199,4 +223,5 @@ class EntityOrder implements iEntityOrder
 
         return $this;
     }
+
 }
