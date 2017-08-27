@@ -1,5 +1,5 @@
 <?php
-namespace mhndev\digipeykLogisticClient;
+namespace mhndev\digipeykLogisticClient\interfaces;
 
 /**
  * Interface iEntity

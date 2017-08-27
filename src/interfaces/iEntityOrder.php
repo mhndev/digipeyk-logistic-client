@@ -1,5 +1,5 @@
 <?php
-namespace mhndev\digipeykLogisticClient;
+namespace mhndev\digipeykLogisticClient\interfaces;
 
 use mhndev\digipeykLogisticClient\valueObjects\OrderItem;
 use mhndev\digipeykLogisticClient\valueObjects\OrderPayment;

@@ -14,6 +14,32 @@ class OrderItemSource implements iValueObject
 {
 
     /**
+     * OrderItemSource constructor.
+     * @param HomePhoneTehran|null $phone
+     * @param MobilePhone|null $mobile
+     * @param Address|null $address
+     * @param string $name
+     * @param string $organization
+     * @param string $description
+     */
+    public function __construct(
+        HomePhoneTehran $phone = null,
+        MobilePhone $mobile = null,
+        Address $address = null,
+        string $name = '' ,
+        string $organization = '',
+        string $description = '')
+    {
+        $this->phone        = $phone;
+        $this->mobile       = $mobile;
+        $this->address      = $address;
+        $this->name         = $name;
+        $this->organization = $organization;
+        $this->description  = $description;
+    }
+
+
+    /**
      * @var HomePhoneTehran
      */
     protected $phone;
@@ -48,7 +74,7 @@ class OrderItemSource implements iValueObject
      * @param iValueObject $valueObject
      * @return boolean
      */
-    function isEqual(iValueObject $valueObject)
+    public function isEqual(iValueObject $valueObject)
     {
         /** @var OrderItemSource $givenOrderItemSource */
         $givenOrderItemSource = $valueObject;
@@ -115,7 +141,7 @@ class OrderItemSource implements iValueObject
     /**
      * @return array
      */
-    function toArray()
+    public function toArray()
     {
         return [
             'name'         => $this->getName(),
@@ -125,6 +151,22 @@ class OrderItemSource implements iValueObject
             'description'  => $this->getDescription(),
             'address'      => $this->getAddress()->toArray()
         ];
+    }
+
+    /**
+     * @param $array
+     * @return static
+     */
+    public static function fromOptions($array)
+    {
+        return new static(
+            HomePhoneTehran::fromOptions($array['phone']['home']),
+            MobilePhone::fromOptions($array['phone']['mobile']),
+            Address::fromOptions($array['address']),
+            $array['name'],
+            $array['organization'],
+            $array['description']
+        );
     }
 
 }

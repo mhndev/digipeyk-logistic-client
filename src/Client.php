@@ -2,6 +2,8 @@
 namespace mhndev\digipeykLogisticClient;
 
 use mhndev\digipeykLogisticClient\entities\EntityOrder;
+use mhndev\digipeykLogisticClient\interfaces\iClient;
+use mhndev\digipeykLogisticClient\interfaces\iEntityOrder;
 use mhndev\digipeykLogisticClient\interfaces\iHttpClient;
 use Psr\Http\Message\ResponseInterface;
 
@@ -49,6 +51,7 @@ class Client implements iClient
      */
     function createOrder(iEntityOrder $order)
     {
+        var_dump($order->toArray()); die;
         $response = $this->httpClient->sendRequest(
             'POST',
             self::endpoints[__METHOD__],

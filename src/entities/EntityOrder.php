@@ -1,8 +1,8 @@
 <?php
 namespace mhndev\digipeykLogisticClient\entities;
 
-use mhndev\digipeykLogisticClient\iEntity;
-use mhndev\digipeykLogisticClient\iEntityOrder;
+use mhndev\digipeykLogisticClient\interfaces\iEntity;
+use mhndev\digipeykLogisticClient\interfaces\iEntityOrder;
 use mhndev\digipeykLogisticClient\valueObjects\OrderEvent;
 use mhndev\digipeykLogisticClient\valueObjects\OrderItem;
 use mhndev\digipeykLogisticClient\valueObjects\OrderPayment;
@@ -18,7 +18,9 @@ use mhndev\phpStd\ObjectBuilder;
 class EntityOrder implements iEntityOrder
 {
 
-    use ObjectBuilder;
+    use ObjectBuilder{
+        fromOptions as parentFromOptions;
+    }
 
 
     /**
@@ -49,12 +51,12 @@ class EntityOrder implements iEntityOrder
     /**
      * @var bool
      */
-    protected $is_locked;
+    protected $is_locked = false;
 
     /**
      * @var bool
      */
-    protected $is_paid;
+    protected $is_paid = false;
 
     /**
      * @var OrderPayment
@@ -108,8 +110,21 @@ class EntityOrder implements iEntityOrder
      */
     function getItems(): Collection
     {
-        return $this->items;
+        return empty($this->items) ? new Collection() : $this->items;
     }
+
+
+    /**
+     * @param Collection $items
+     * @return $this
+     */
+    function setItems(Collection $items)
+    {
+        $this->items = $items;
+
+        return $this;
+    }
+
 
     /**
      * @param OrderItem $orderItem
@@ -117,9 +132,9 @@ class EntityOrder implements iEntityOrder
      */
     function addItem(OrderItem $orderItem): iEntityOrder
     {
-        $this->items->add($orderItem);
+        $this->setItems($this->getItems()->add($orderItem));
 
-        $this->price->addTripPrice($orderItem->getPrice());
+        $this->setPrice($this->getPrice()->addTripPrice($orderItem->getPrice()));
 
         return $this;
     }
@@ -131,6 +146,8 @@ class EntityOrder implements iEntityOrder
     function clearItems(): iEntityOrder
     {
         $this->items = new Collection();
+
+        $this->getPrice()->reset();
 
         $this->status = new OrderStatus(OrderStatus::INIT);
 
@@ -171,7 +188,18 @@ class EntityOrder implements iEntityOrder
      */
     public function getPrice(): OrderPrice
     {
-        return $this->price;
+        return empty($this->price) ? new OrderPrice(0, 0) : $this->price;
+    }
+
+    /**
+     * @param OrderPrice $price
+     * @return $this
+     */
+    public function setPrice(OrderPrice $price)
+    {
+        $this->price = $price;
+
+        return $this;
     }
 
 
@@ -248,6 +276,33 @@ class EntityOrder implements iEntityOrder
         return $this->updated_at;
     }
 
+    /**
+     * @param array $array
+     * @return static
+     */
+    public static function fromOptions(array $array)
+    {
+        return self::parentFromOptions(self::fixArrayData($array));
+    }
+
+    /**
+     * @param array $array
+     * @return array
+     */
+    private static function fixArrayData(array $array)
+    {
+        $items = new Collection();
+        foreach ($array['items'] as $item){
+            $orderItem = OrderItem::fromOptions($item);
+
+            $items->add($orderItem);
+        }
+
+        $array['items'] = $items;
+        $array['price'] = OrderPrice::fromOptions($array['price']);
+
+        return $array;
+    }
 
 
     /**
@@ -256,7 +311,7 @@ class EntityOrder implements iEntityOrder
      */
     function fromArray(array $array)
     {
-        // TODO: Implement fromArray() method.
+        return self::fromOptions($array);
     }
 
     /**

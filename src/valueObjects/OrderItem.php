@@ -35,7 +35,7 @@ class OrderItem implements iValueObject
     function __construct(
         OrderItemSource $itemSource,
         OrderItemDestination $itemDestination,
-        $price
+        int $price
     )
     {
         $this->itemSource = $itemSource;
@@ -78,7 +78,7 @@ class OrderItem implements iValueObject
     /**
      * @return integer
      */
-    public function getPrice(): integer
+    public function getPrice(): int
     {
         return $this->price;
     }
@@ -87,7 +87,7 @@ class OrderItem implements iValueObject
     /**
      * @return array
      */
-    function toArray()
+    public function toArray()
     {
         return [
             'source'      => $this->getItemSource()->toArray(),
@@ -96,5 +96,14 @@ class OrderItem implements iValueObject
         ];
     }
 
+
+    public static function fromOptions($data)
+    {
+        return new static(
+            OrderItemSource::fromOptions($data['source']),
+            OrderItemDestination::fromOptions($data['destination']),
+            $data['price']
+        );
+    }
 
 }

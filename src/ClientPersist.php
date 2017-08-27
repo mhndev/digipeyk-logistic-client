@@ -1,6 +1,8 @@
 <?php
 namespace mhndev\digipeykLogisticClient;
 
+use mhndev\digipeykLogisticClient\interfaces\iClient;
+use mhndev\digipeykLogisticClient\interfaces\iEntityOrder;
 use mhndev\digipeykLogisticClient\interfaces\iHttpClient;
 use mhndev\digipeykLogisticClient\interfaces\iOrderRepository;
 

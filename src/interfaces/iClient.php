@@ -1,7 +1,7 @@
 <?php
-namespace mhndev\digipeykLogisticClient;
+namespace mhndev\digipeykLogisticClient\interfaces;
 
-use mhndev\digipeykLogisticClient\interfaces\iHttpClient;
+
 
 /**
  * Interface iClient

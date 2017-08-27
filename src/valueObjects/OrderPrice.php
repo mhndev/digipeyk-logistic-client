@@ -52,11 +52,14 @@ class OrderPrice implements iValueObject
 
     /**
      * @param integer $trip_price
+     * @return $this
      */
     function addTripPrice($trip_price)
     {
         $this->trips_price[] = $trip_price;
         $this->forward_price += $trip_price;
+
+        return $this;
     }
 
     /**
@@ -108,6 +111,21 @@ class OrderPrice implements iValueObject
 
 
     /**
+     * @return $this
+     */
+    function reset()
+    {
+        $this->forward_price = 0;
+        $this->trips_price = [];
+        $this->insurance_price = 0;
+        $this->total_price = 0;
+        $this->backward_price = 0;
+
+        return $this;
+    }
+
+
+    /**
      * @return array
      */
     public function getTripsPrice(): array
@@ -127,6 +145,19 @@ class OrderPrice implements iValueObject
             'insurance' => $this->getInsurancePrice(),
             'total'     => $this->getTotalPrice(),
         ];
+    }
+
+    /**
+     * @param array $options
+     * @return static
+     */
+    public static function fromOptions($options)
+    {
+        return new static(
+            $options['forward'],
+            $options['backward'],
+            $options['insurance']
+        );
     }
 
 

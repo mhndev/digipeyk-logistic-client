@@ -1,8 +1,6 @@
 <?php
 namespace mhndev\digipeykLogisticClient\interfaces;
 
-use mhndev\digipeykLogisticClient\iEntityOrder;
-
 /**
  * Interface iOrderRepository
  * @package mhndev\digipeykLogisticClient\interfaces
