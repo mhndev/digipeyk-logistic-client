@@ -59,7 +59,7 @@ class EntityOrder implements iEntityOrder
     protected $is_paid = false;
 
     /**
-     * @var OrderPayment
+     * @var OrderPayment | null
      */
     protected $payment;
 
@@ -215,7 +215,7 @@ class EntityOrder implements iEntityOrder
             'ownerIdentifier' => $this->getOwnerIdentifier(),
             'is_locked'       => $this->isLocked(),
             'is_paid'         => $this->isPaid(),
-            'payment'         => $this->getPayment()->toArray(),
+            'payment'         => !empty($this->getPayment()) ? $this->getPayment()->toArray() : null,
             'items'           => $this->getItems()->toArray()
         ];
     }
@@ -229,7 +229,7 @@ class EntityOrder implements iEntityOrder
     }
 
     /**
-     * @return OrderPayment
+     * @return OrderPayment | null
      */
     function getPayment()
     {
@@ -300,6 +300,12 @@ class EntityOrder implements iEntityOrder
 
         $array['items'] = $items;
         $array['price'] = OrderPrice::fromOptions($array['price']);
+        if (empty($array['status'])){
+            $array['status'] = new OrderStatus(OrderStatus::INIT);
+        }
+        else{
+            $array['status'] = new OrderStatus($array['status']['code']);
+        }
 
         return $array;
     }

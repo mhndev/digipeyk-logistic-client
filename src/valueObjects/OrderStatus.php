@@ -49,6 +49,10 @@ class OrderStatus implements iValueObject
     public function __construct($code)
     {
         $this->code = $code;
+
+        if (array_key_exists($code, self::possible_statuses)){
+            $this->preview = self::possible_statuses[$code]['description'];
+        }
     }
 
     /**

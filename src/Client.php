@@ -51,13 +51,14 @@ class Client implements iClient
      */
     function createOrder(iEntityOrder $order)
     {
-        var_dump($order->toArray()); die;
+
         $response = $this->httpClient->sendRequest(
             'POST',
             self::endpoints[__METHOD__],
             json_encode($order->toArray()),
             ['Content-type' => 'application/json', 'Authorization' => 'Bearer '.$this->getToken()]
         );
+
 
         return EntityOrder::fromOptions($this->getJsonResult($response));
     }
