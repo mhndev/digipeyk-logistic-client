@@ -235,6 +235,14 @@ class EntityOrder implements iEntityOrder
     }
 
     /**
+     * @param bool $status
+     */
+    function setIsPaid(bool $status)
+    {
+        $this->is_paid = $status;
+    }
+
+    /**
      * @return OrderPayment | null
      */
     function getPayment()

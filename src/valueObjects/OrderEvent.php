@@ -135,12 +135,14 @@ class OrderEvent implements iValueObject
     public static function arrayPreview($array)
     {
         $result = [];
-
-        foreach ($array as $key => $element){
-            if ($element instanceof self){
-                $result[$key] = $element->preview();
+        if (!empty($array)){
+            foreach ($array as $key => $element){
+                if ($element instanceof self){
+                    $result[$key] = $element->preview();
+                }
             }
         }
+
         return $result;
     }
 
