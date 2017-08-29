@@ -104,5 +104,13 @@ class OrderStatus implements iValueObject
         return new static($code);
     }
 
+    public function preview()
+    {
+        return [
+            'code' => $this->getCode(),
+            'preview' => $this->getPreview()
+        ];
+    }
+
 
 }

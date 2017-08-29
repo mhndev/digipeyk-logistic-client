@@ -93,7 +93,7 @@ class OrderItemSource implements iValueObject
     /**
      * @return HomePhoneTehran
      */
-    public function getPhone(): HomePhoneTehran
+    public function getPhone()
     {
         return $this->phone;
     }
@@ -101,7 +101,7 @@ class OrderItemSource implements iValueObject
     /**
      * @return MobilePhone
      */
-    public function getMobile(): MobilePhone
+    public function getMobile()
     {
         return $this->mobile;
     }
@@ -109,7 +109,7 @@ class OrderItemSource implements iValueObject
     /**
      * @return Address
      */
-    public function getAddress(): Address
+    public function getAddress()
     {
         return $this->address;
     }
@@ -117,7 +117,7 @@ class OrderItemSource implements iValueObject
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
@@ -125,7 +125,7 @@ class OrderItemSource implements iValueObject
     /**
      * @return string
      */
-    public function getOrganization(): string
+    public function getOrganization()
     {
         return $this->organization;
     }
@@ -133,7 +133,7 @@ class OrderItemSource implements iValueObject
     /**
      * @return string
      */
-    public function getDescription(): string
+    public function getDescription()
     {
         return $this->description;
     }

@@ -157,4 +157,12 @@ class OrderPayment implements iValueObject
     {
         $this->place = $place;
     }
+
+    /**
+     * @param mixed $transaction_id
+     */
+    public function setTransactionId($transaction_id)
+    {
+        $this->transaction_id = $transaction_id;
+    }
 }

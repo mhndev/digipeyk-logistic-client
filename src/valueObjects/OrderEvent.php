@@ -10,11 +10,21 @@ use mhndev\valueObjects\interfaces\iValueObject;
 class OrderEvent implements iValueObject
 {
 
+    const EVENT_CANCEL_CUSTOMER = 'cancel_customer';
+
+    const EVENT_ORDER_ASSIGNED  = 'order_assigned';
+
+    const EVENT_ORDER_PICKED_UP = 'order_pick_up';
+
+    const EVENT_ORDER_DELIVERED = 'order_delivered';
+
+    const EVENT_ORDER_ENDED     = 'order_ended';
+
+
     /**
      * @var string
      */
     protected $name;
-
 
     /**
      * @var \DateTime
@@ -62,7 +72,7 @@ class OrderEvent implements iValueObject
     /**
      * @return \DateTime
      */
-    public function getDate(): \DateTime
+    public function getDate()
     {
         return $this->date;
     }
@@ -72,8 +82,9 @@ class OrderEvent implements iValueObject
      * @param array $options
      * @return static
      */
-    function fromOptions(array $options)
+    static function fromOptions(array $options)
     {
+
         $date = empty($options['date']) ? null : $options['date'];
 
         return new static($options['name'], $date);
@@ -97,6 +108,40 @@ class OrderEvent implements iValueObject
             'name' => $this->getName(),
             'date' => $this->getDate()
         ];
+    }
+
+    /**
+     * @param \DateTime $date
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+    }
+
+    public function preview()
+    {
+        return [
+            'name' => $this->getName(),
+            'date' => $this->getDate()
+        ];
+    }
+
+
+
+    /**
+     * @param $array
+     * @return array
+     */
+    public static function arrayPreview($array)
+    {
+        $result = [];
+
+        foreach ($array as $key => $element){
+            if ($element instanceof self){
+                $result[$key] = $element->preview();
+            }
+        }
+        return $result;
     }
 
 

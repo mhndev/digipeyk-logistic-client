@@ -1,4 +1,5 @@
 <?php
+
 namespace mhndev\digipeykLogisticClient\entities;
 
 use mhndev\digipeykLogisticClient\interfaces\iEntity;
@@ -18,7 +19,7 @@ use mhndev\phpStd\ObjectBuilder;
 class EntityOrder implements iEntityOrder
 {
 
-    use ObjectBuilder{
+    use ObjectBuilder {
         fromOptions as parentFromOptions;
     }
 
@@ -214,14 +215,14 @@ class EntityOrder implements iEntityOrder
     public function toArray()
     {
         return [
-            'identifier'      => $this->getIdentifier(),
-            'price'           => $this->getPrice()->toArray(),
-            'status'          => $this->getStatus()->toArray(),
+            'identifier' => $this->getIdentifier(),
+            'price' => $this->getPrice()->toArray(),
+            'status' => $this->getStatus()->toArray(),
             'ownerIdentifier' => $this->getOwnerIdentifier(),
-            'is_locked'       => $this->isLocked(),
-            'is_paid'         => $this->isPaid(),
-            'payment'         => !empty($this->getPayment()) ? $this->getPayment()->toArray() : null,
-            'items'           => $this->getItems()->toArray()
+            'is_locked' => $this->isLocked(),
+            'is_paid' => $this->isPaid(),
+            'payment' => !empty($this->getPayment()) ? $this->getPayment()->toArray() : null,
+            'items' => $this->getItems()->toArray()
         ];
     }
 
@@ -297,7 +298,7 @@ class EntityOrder implements iEntityOrder
     private static function fixArrayData(array $array)
     {
         $items = new Collection();
-        foreach ($array['items'] as $item){
+        foreach ($array['items'] as $item) {
             $orderItem = OrderItem::fromOptions($item);
 
             $items->add($orderItem);
@@ -305,10 +306,9 @@ class EntityOrder implements iEntityOrder
 
         $array['items'] = $items;
         $array['price'] = OrderPrice::fromOptions($array['price']);
-        if (empty($array['status'])){
+        if (empty($array['status'])) {
             $array['status'] = OrderStatus::fromOptions(OrderStatus::INIT);
-        }
-        else{
+        } else {
             $array['status'] = OrderStatus::fromOptions($array['status']['code']);
         }
         $array['payment'] = OrderPayment::fromOptions($array['payment']);
@@ -332,10 +332,16 @@ class EntityOrder implements iEntityOrder
     function preview()
     {
         return [
-          'options' => $this->getOptions(),
-          'items'   => $this->getItems()->preview(),
-          'price'   => $this->getPrice()->preview(),
-          'payment' => $this->getPayment()->preview()
+            'identifier' => $this->getIdentifier(),
+            'options' => $this->getOptions(),
+            'status'  => $this->getStatus()->preview(),
+            'items' => $this->getItems()->preview(),
+            'price' => $this->getPrice()->preview(),
+            'payment' => $this->getPayment()->preview(),
+            'ownerIdentifier' => $this->getOwnerIdentifier(),
+            'is_locked' => $this->isLocked(),
+            'is_paid' => $this->isPaid(),
+            'events'  => OrderEvent::arrayPreview($this->getEvents())
 
 
         ];
@@ -396,6 +402,27 @@ class EntityOrder implements iEntityOrder
     public function setPayment($payment)
     {
         $this->payment = $payment;
+    }
+
+    public function isEditable()
+    {
+        return !$this->isLocked();
+    }
+
+    /**
+     * @return array
+     */
+    public function getEvents()
+    {
+        return $this->events;
+    }
+
+    /**
+     * @param array $events
+     */
+    public function setEvents(array $events = null)
+    {
+        $this->events = $events;
     }
 
 }

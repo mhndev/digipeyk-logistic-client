@@ -39,5 +39,10 @@ interface iOrderRepository
      */
     function findByOwnerIdentifier($ownerIdentifier, $offset = 0, $limit = 10, array $sort = []);
 
+    /**
+     * @param $identifier
+     * @return iEntityOrder
+     */
+    function findByIdentifier($identifier) :iEntityOrder;
 
 }
