@@ -41,9 +41,9 @@ class ClientPersist extends Client implements iClient
      */
     function createOrder(iEntityOrder $order)
     {
-        $order = parent::createOrder($order);
+//        $order = parent::createOrder($order);
 
-        $this->orderRepository->insert($order);
+        return $this->orderRepository->insert($order);
     }
 
     /**

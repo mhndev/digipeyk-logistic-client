@@ -95,5 +95,14 @@ class OrderStatus implements iValueObject
         ];
     }
 
+    /**
+     * @param $code
+     * @return static
+     */
+    public static function fromOptions($code)
+    {
+        return new static($code);
+    }
+
 
 }

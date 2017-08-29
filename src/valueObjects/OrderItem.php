@@ -90,18 +90,29 @@ class OrderItem implements iValueObject
     public function toArray()
     {
         return [
-            'source'      => $this->getItemSource()->toArray(),
-            'destination' => $this->getItemDestination()->toArray(),
+            'itemSource'      => $this->getItemSource()->toArray(),
+            'itemDestination' => $this->getItemDestination()->toArray(),
             'price'       => $this->getPrice()
         ];
     }
 
+    /**
+     * @return array
+     */
+    public function preview()
+    {
+        return [
+            'itemSource'      => $this->getItemSource()->preview(),
+            'itemDestination' => $this->getItemDestination()->preview(),
+            'price'       => $this->getPrice()
+        ];
+    }
 
     public static function fromOptions($data)
     {
         return new static(
-            OrderItemSource::fromOptions($data['source']),
-            OrderItemDestination::fromOptions($data['destination']),
+            OrderItemSource::fromOptions($data['itemSource']),
+            OrderItemDestination::fromOptions($data['itemDestination']),
             $data['price']
         );
     }

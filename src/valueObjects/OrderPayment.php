@@ -25,27 +25,38 @@ class OrderPayment implements iValueObject
      */
     protected $transaction_id;
 
+    /**
+     * @var string
+     */
+    protected $place;
 
-    const TYPE_WALLET = 'wallet';
 
-    const TYPE_CASH   = 'cash';
+    const TYPE_WALLET       = 'wallet';
 
-    const TYPE_ONLINE = 'online';
+    const TYPE_CASH         = 'cash';
 
-    const TYPE_CUSTOM = 'custom';
+    const TYPE_ONLINE       = 'online';
+
+    const TYPE_CUSTOM       = 'custom';
+
+    const PLACE_ORIGIN      = 'origin';
+
+    const PLACE_DESTINATION = 'destination';
 
 
     /**
      * OrderPayment constructor.
      * @param int $amount
      * @param int $transaction_id
+     * @param string $place
      * @param string $type
      */
-    public function __construct(int $amount, int $transaction_id, string $type = 'wallet')
+    public function __construct(int $amount, int $transaction_id = null, string $place ,string $type = 'wallet')
     {
         $this->amount = $amount;
         $this->transaction_id = $transaction_id;
         $this->type = $type;
+        $this->place = $place;
     }
 
 
@@ -83,8 +94,14 @@ class OrderPayment implements iValueObject
         return [
             'type' => $this->getType(),
             'amount' => $this->getAmount(),
-            'transaction_id' => $this->getTransactionId()
+            'transaction_id' => $this->getTransactionId(),
+            'place' => $this->getPlace()
         ];
+    }
+
+    function preview()
+    {
+        return $this->toArray();
     }
 
 
@@ -92,9 +109,11 @@ class OrderPayment implements iValueObject
      * @param array $options
      * @return static
      */
-    function fromOptions(array $options)
+    static function fromOptions(array $options)
     {
-        return new static($options['amount'], $options['transaction_id'], $options['type']);
+        $transactionId = !empty($options['transaction_id']) ? $options['transaction_id'] : null;
+
+        return new static($options['amount'], $transactionId, $options['place'] ,$options['type']);
     }
 
 
@@ -121,5 +140,21 @@ class OrderPayment implements iValueObject
             ( $this->getType() == $orderPayment->getType() ) &&
             ( $this->getAmount() == $orderPayment->getAmount() ) &&
             ( $this->getTransactionId() == $orderPayment->getTransactionId() );
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlace(): string
+    {
+        return $this->place;
+    }
+
+    /**
+     * @param string $place
+     */
+    public function setPlace(string $place)
+    {
+        $this->place = $place;
     }
 }

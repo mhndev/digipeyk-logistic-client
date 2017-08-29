@@ -145,13 +145,29 @@ class OrderItemSource implements iValueObject
     {
         return [
             'name'         => $this->getName(),
-            'phone'        => $this->getPhone()->toArray(),
-            'mobile'       => $this->getMobile()->toArray(),
+            'phone'        => !empty($this->getPhone()) ? $this->getPhone()->toArray() : null,
+            'mobile'       => !empty($this->getMobile()) ? $this->getMobile()->toArray() : null,
             'organization' => $this->getOrganization(),
             'description'  => $this->getDescription(),
-            'address'      => $this->getAddress()->toArray()
+            'address'      => !empty($this->getAddress()) ? $this->getAddress()->toArray() : null
         ];
     }
+
+    /**
+     * @return array
+     */
+    public function preview()
+    {
+        return [
+            'name'         => $this->getName(),
+            'phone'        => !empty($this->getPhone()) ? $this->getPhone()->preview() : null,
+            'mobile'       => !empty($this->getMobile()) ? $this->getMobile()->preview() : null,
+            'organization' => $this->getOrganization(),
+            'description'  => $this->getDescription(),
+            'address'      => !empty($this->getAddress()) ? $this->getAddress()->preview() : null
+        ];
+    }
+
 
     /**
      * @param $array
@@ -159,9 +175,16 @@ class OrderItemSource implements iValueObject
      */
     public static function fromOptions($array)
     {
+        if (!empty($array['phone']) && is_array($array['phone'])){
+            $array['phone'] = $array['phone']['number'];
+        }
+        if (!empty($array['mobile']) && is_array($array['mobile'])){
+            $array['mobile'] = $array['mobile']['number'];
+        }
+
         return new static(
-            HomePhoneTehran::fromOptions($array['phone']['home']),
-            MobilePhone::fromOptions($array['phone']['mobile']),
+            HomePhoneTehran::fromOptions($array['phone']),
+            MobilePhone::fromOptions($array['mobile']),
             Address::fromOptions($array['address']),
             $array['name'],
             $array['organization'],

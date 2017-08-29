@@ -139,11 +139,11 @@ class OrderPrice implements iValueObject
     function toArray()
     {
         return [
-            'forward'   => $this->getForwardPrice(),
-            'backward'  => $this->getBackwardPrice(),
-            'trips'     => $this->getTripsPrice(),
-            'insurance' => $this->getInsurancePrice(),
-            'total'     => $this->getTotalPrice(),
+            'forward_price'   => $this->getForwardPrice(),
+            'backward_price'  => $this->getBackwardPrice(),
+            'trips_price'     => $this->getTripsPrice(),
+            'insurance_price' => $this->getInsurancePrice(),
+            'total_price'     => $this->getTotalPrice(),
         ];
     }
 
@@ -154,10 +154,15 @@ class OrderPrice implements iValueObject
     public static function fromOptions($options)
     {
         return new static(
-            $options['forward'],
-            $options['backward'],
-            $options['insurance']
+            $options['forward_price'],
+            $options['backward_price'],
+            $options['insurance_price']
         );
+    }
+
+    public function preview()
+    {
+        return $this->toArray();
     }
 
 

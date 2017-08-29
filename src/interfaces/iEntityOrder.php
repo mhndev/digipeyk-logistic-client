@@ -19,6 +19,12 @@ interface iEntityOrder extends iEntity
     function getIdentifier();
 
     /**
+     * @param $identifier
+     * @return mixed
+     */
+    function setIdentifier($identifier);
+
+    /**
      * @return mixed
      */
     function getOwnerIdentifier();
@@ -26,12 +32,12 @@ interface iEntityOrder extends iEntity
     /**
      * @return OrderStatus
      */
-    function getStatus() : OrderStatus;
+    function getStatus();
 
     /**
      * @return Collection
      */
-    function getItems() : Collection;
+    function getItems();
 
     /**
      * @param OrderItem $orderItem
@@ -68,6 +74,11 @@ interface iEntityOrder extends iEntity
      * @return OrderPayment
      */
     function getPayment();
+
+    /**
+     * @param OrderPayment $payment
+     */
+    function setPayment($payment);
 
     /**
      * @param OrderPayment $payment

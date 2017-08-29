@@ -30,5 +30,14 @@ interface iOrderRepository
      */
     function listAll($offset = 0, $limit = 10, array $sort = []);
 
+    /**
+     * @param $ownerIdentifier
+     * @param int $offset
+     * @param int $limit
+     * @param array $sort
+     * @return mixed
+     */
+    function findByOwnerIdentifier($ownerIdentifier, $offset = 0, $limit = 10, array $sort = []);
+
 
 }

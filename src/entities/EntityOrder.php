@@ -80,6 +80,11 @@ class EntityOrder implements iEntityOrder
      */
     protected $events;
 
+    /**
+     * @var array
+     */
+    protected $options;
+
 
     /**
      * @return mixed string | integer
@@ -100,7 +105,7 @@ class EntityOrder implements iEntityOrder
     /**
      * @return OrderStatus
      */
-    function getStatus(): OrderStatus
+    function getStatus()
     {
         return $this->status;
     }
@@ -108,7 +113,7 @@ class EntityOrder implements iEntityOrder
     /**
      * @return Collection
      */
-    function getItems(): Collection
+    function getItems()
     {
         return empty($this->items) ? new Collection() : $this->items;
     }
@@ -186,7 +191,7 @@ class EntityOrder implements iEntityOrder
     /**
      * @return OrderPrice
      */
-    public function getPrice(): OrderPrice
+    public function getPrice()
     {
         return empty($this->price) ? new OrderPrice(0, 0) : $this->price;
     }
@@ -263,7 +268,7 @@ class EntityOrder implements iEntityOrder
     /**
      * @return \DateTime
      */
-    public function getCreatedAt(): \DateTime
+    public function getCreatedAt()
     {
         return $this->created_at;
     }
@@ -271,7 +276,7 @@ class EntityOrder implements iEntityOrder
     /**
      * @return \DateTime
      */
-    public function getUpdatedAt(): \DateTime
+    public function getUpdatedAt()
     {
         return $this->updated_at;
     }
@@ -301,11 +306,12 @@ class EntityOrder implements iEntityOrder
         $array['items'] = $items;
         $array['price'] = OrderPrice::fromOptions($array['price']);
         if (empty($array['status'])){
-            $array['status'] = new OrderStatus(OrderStatus::INIT);
+            $array['status'] = OrderStatus::fromOptions(OrderStatus::INIT);
         }
         else{
-            $array['status'] = new OrderStatus($array['status']['code']);
+            $array['status'] = OrderStatus::fromOptions($array['status']['code']);
         }
+        $array['payment'] = OrderPayment::fromOptions($array['payment']);
 
         return $array;
     }
@@ -325,7 +331,71 @@ class EntityOrder implements iEntityOrder
      */
     function preview()
     {
-        // TODO: Implement preview() method.
+        return [
+          'options' => $this->getOptions(),
+          'items'   => $this->getItems()->preview(),
+          'price'   => $this->getPrice()->preview(),
+          'payment' => $this->getPayment()->preview()
+
+
+        ];
+    }
+
+    /**
+     * @param mixed $identifier
+     * @return mixed|void
+     */
+    public function setIdentifier($identifier)
+    {
+        $this->identifier = $identifier;
+    }
+
+    /**
+     * @param \DateTime $created_at
+     */
+    public function setCreatedAt(\DateTime $created_at)
+    {
+        $this->created_at = $created_at;
+    }
+
+    /**
+     * @param \DateTime $updated_at
+     */
+    public function setUpdatedAt(\DateTime $updated_at)
+    {
+        $this->updated_at = $updated_at;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * @param array $options
+     */
+    public function setOptions($options)
+    {
+        $this->options = $options;
+    }
+
+    /**
+     * @param OrderStatus $status
+     */
+    public function setStatus(OrderStatus $status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @param OrderPayment|null $payment
+     */
+    public function setPayment($payment)
+    {
+        $this->payment = $payment;
     }
 
 }
