@@ -17,7 +17,7 @@ interface iClient
 
     /**
      * @param iEntityOrder $order
-     * @return iEntityOrder
+     * @return array
      */
     function createOrder(iEntityOrder $order);
 

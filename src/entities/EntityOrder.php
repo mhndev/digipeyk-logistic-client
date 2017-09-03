@@ -433,4 +433,38 @@ class EntityOrder implements iEntityOrder
         $this->events = $events;
     }
 
+    /**
+     * @return array
+     */
+    public function toDigipeykArray()
+    {
+        $items = $this->getItems();
+        $digipeykItems = [];
+
+        /** @var OrderItem $item */
+        foreach ($items as $key => $item){
+            $digipeykItems[$key]['price'] = $item->getPrice();
+            $digipeykItems[$key]['itemType'] = "peik";
+            $digipeykItems[$key]['itemIdentifier'] = "34546uh5g45";
+            $digipeykItems[$key]['sender'] = $item->getItemSource()->toDigipeykArray();
+            $digipeykItems[$key]['receiver'] = $item->getItemDestination()->toDigipeykArray();
+            $digipeykItems[$key]['priceDetails'] = $this->getPrice()->toDigipeykArray();
+        }
+
+        $options = $this->getOptions();
+
+        $options['payment'] = [
+            'place' => $this->getPayment()->getPlace(),
+            'type'  => $this->getPayment()->getType()
+        ];
+
+
+       return [
+            'options' => $options,
+            'items'   => $digipeykItems
+       ];
+
+    }
+
+
 }

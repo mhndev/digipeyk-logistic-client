@@ -145,8 +145,8 @@ class OrderItemSource implements iValueObject
     {
         return [
             'name'         => $this->getName(),
-            'phone'        => !empty($this->getPhone()) ? $this->getPhone()->toArray() : null,
-            'mobile'       => !empty($this->getMobile()) ? $this->getMobile()->toArray() : null,
+            'phone'        => !empty($this->getPhone()) ? $this->getPhone()->preview() : null,
+            'mobile'       => !empty($this->getMobile()) ? $this->getMobile()->preview() : null,
             'organization' => $this->getOrganization(),
             'description'  => $this->getDescription(),
             'address'      => !empty($this->getAddress()) ? $this->getAddress()->toArray() : null
@@ -191,5 +191,23 @@ class OrderItemSource implements iValueObject
             $array['description']
         );
     }
+
+    /**
+     * @return array
+     */
+    public function toDigipeykArray()
+    {
+        $result = $this->toArray();
+        $mobile = $result['mobile'];
+        $home = $result['phone'];
+        unset($result['mobile'], $result['home']);
+        $result['phone'] = [
+            'mobile' => $mobile,
+            'home'   => $home
+        ];
+
+        return $result;
+    }
+
 
 }

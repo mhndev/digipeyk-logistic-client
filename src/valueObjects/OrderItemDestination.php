@@ -195,4 +195,22 @@ class OrderItemDestination implements iValueObject
     }
 
 
+    /**
+     * @return array
+     */
+    public function toDigipeykArray()
+    {
+        $result = $this->toArray();
+        $mobile = $result['mobile'];
+        $home = $result['phone'];
+        unset($result['mobile'], $result['home']);
+        $result['phone'] = [
+            'mobile' => $mobile,
+            'home'   => $home
+        ];
+
+        return $result;
+    }
+
+
 }

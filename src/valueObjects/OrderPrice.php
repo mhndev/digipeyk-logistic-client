@@ -165,5 +165,17 @@ class OrderPrice implements iValueObject
         return $this->toArray();
     }
 
+    /**
+     * @return array
+     */
+    public function toDigipeykArray()
+    {
+        return [
+             'forward'   => $this->getForwardPrice(),
+             'backward'  => $this->getBackwardPrice(),
+             'insurance' => $this->getInsurancePrice()
+        ];
+    }
+
 
 }

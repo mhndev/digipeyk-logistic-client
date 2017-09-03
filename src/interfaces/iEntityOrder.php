@@ -91,4 +91,9 @@ interface iEntityOrder extends iEntity
      */
     function toArray();
 
+    /**
+     * @return array
+     */
+    function toDigipeykArray();
+
 }
