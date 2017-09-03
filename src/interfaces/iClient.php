@@ -23,7 +23,7 @@ interface iClient
 
     /**
      * @param iEntityOrder $order
-     * @return iEntityOrder
+     * @return array
      */
     function cancelOrder(iEntityOrder $order);
 
@@ -43,5 +43,14 @@ interface iClient
      * @return string
      */
     function getOrderTrackingLink(iEntityOrder $order);
+
+
+    /**
+     * @param int $perPage
+     * @param int $page
+     * @param string $sort
+     * @return mixed
+     */
+    function listMyAddresses(int $perPage = 10, int $page = 1 , $sort = 'created_at');
 
 }

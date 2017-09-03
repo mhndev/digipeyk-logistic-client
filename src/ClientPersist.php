@@ -30,7 +30,6 @@ class ClientPersist extends Client implements iClient
     )
     {
         parent::__construct($httpClient);
-
         $this->orderRepository = $orderRepository;
     }
 
@@ -53,9 +52,9 @@ class ClientPersist extends Client implements iClient
      */
     function cancelOrder(iEntityOrder $order)
     {
-        $canceledOrder = parent::cancelOrder($order);
+        parent::cancelOrder($order);
 
-        $this->orderRepository->update($canceledOrder);
+        $this->orderRepository->update($order);
     }
 
     /**

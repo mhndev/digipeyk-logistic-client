@@ -30,10 +30,11 @@ class Client implements iClient
      * array
      */
     const endpoints =  [
-        'createOrder'  => 'https://digipeyk.com/services/digipeyk/order',
-        'cancelOrder'  => 'https://digipeyk.com/services/digipeyk/order/cancel-customer',
-        'editOrder'    => 'https://digipeyk.com/services/digipeyk/order',
-        'listMyOrders' => 'https://digipeyk.com/services/digipeyk/order/me',
+        'createOrder'     => 'https://digipeyk.com/services/digipeyk/order',
+        'cancelOrder'     => 'https://digipeyk.com/services/digipeyk/order/cancel-customer/',
+        'editOrder'       => 'https://digipeyk.com/services/digipeyk/order',
+        'listMyOrders'    => 'https://digipeyk.com/services/digipeyk/order/me',
+        'listMyAddresses' => 'https://digipeyk.com/services/digipeyk/address/me'
     ];
 
 
@@ -52,7 +53,6 @@ class Client implements iClient
      */
     function createOrder(iEntityOrder $order)
     {
-
         /** @var array $response */
         $response = $this->httpClient->sendRequest(
             'POST',
@@ -69,18 +69,19 @@ class Client implements iClient
 
     /**
      * @param iEntityOrder $order
-     * @return iEntityOrder
+     * @return array
      */
     function cancelOrder(iEntityOrder $order)
     {
+        /** @var array $response */
         $response = $this->httpClient->sendRequest(
             'PATCH',
-            self::endpoints[__METHOD__],
-            json_encode($order->toArray()),
+            self::endpoints[__FUNCTION__] . $order->getIdentifier(),
+            '',
             ['Content-type' => 'application/json', 'Authorization' => 'Bearer ' . $this->getToken()]
         );
 
-        return EntityOrder::fromOptions($this->getJsonResult($response));
+        return $response;
     }
 
     /**
@@ -164,4 +165,30 @@ class Client implements iClient
         return json_decode($response->getBody()->getContents(), true);
     }
 
+    /**
+     * @param int $perPage
+     * @param int $page
+     * @param string $sort
+     * @return mixed
+     */
+    public function listMyAddresses(int $perPage = 10, int $page = 1, $sort = 'created_at')
+    {
+        /** @var array $response */
+        $response = $this->httpClient->sendRequest(
+            'GET',
+            self::endpoints[__FUNCTION__],
+            '',
+            [
+                'Content-Type' => 'application/json', 'Authorization' => 'Bearer ' . $this->getToken(),
+                'Accept' => 'application/json'
+            ],
+            [
+                'perPage' => $perPage,
+                'page'    => $page,
+                'sort'    => $sort
+            ]
+        );
+
+        return $response;
+    }
 }
