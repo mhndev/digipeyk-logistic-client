@@ -15,13 +15,13 @@ interface iHttpClient
      * @param string $uri
      * @param string $body
      * @param array $headers
-     * @return ResponseInterface
+     * @return ResponseInterface | string
      */
     function sendRequest(
         string $method = 'GET',
         string $uri,
         string $body,
         array $headers = []
-    ) : ResponseInterface;
+    );
 
 }

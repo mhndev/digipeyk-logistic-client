@@ -2,7 +2,6 @@
 
 namespace mhndev\digipeykLogisticClient;
 
-use GuzzleHttp\Exception\ClientException;
 use mhndev\digipeykLogisticClient\entities\EntityOrder;
 use mhndev\digipeykLogisticClient\interfaces\iClient;
 use mhndev\digipeykLogisticClient\interfaces\iEntityOrder;
@@ -30,10 +29,10 @@ class Client implements iClient
     /**
      * array
      */
-    const endpoints = [
-        'createOrder' => 'https://digipeyk.com/services/digipeyk/order',
-        'cancelOrder' => 'https://digipeyk.com/services/digipeyk/order/cancel-customer',
-        'editOrder' => 'https://digipeyk.com/services/digipeyk/order',
+    const endpoints =  [
+        'createOrder'  => 'https://digipeyk.com/services/digipeyk/order',
+        'cancelOrder'  => 'https://digipeyk.com/services/digipeyk/order/cancel-customer',
+        'editOrder'    => 'https://digipeyk.com/services/digipeyk/order',
         'listMyOrders' => 'https://digipeyk.com/services/digipeyk/order/me',
     ];
 
@@ -54,6 +53,7 @@ class Client implements iClient
     function createOrder(iEntityOrder $order)
     {
 
+        /** @var array $response */
         $response = $this->httpClient->sendRequest(
             'POST',
             self::endpoints[__FUNCTION__],
@@ -63,7 +63,8 @@ class Client implements iClient
                 'Accept' => 'application/json'
             ]
         );
-        return $this->getJsonResult($response);
+
+        return $response;
     }
 
     /**
