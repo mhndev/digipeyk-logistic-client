@@ -398,10 +398,14 @@ class EntityOrder implements iEntityOrder
 
     /**
      * @param OrderStatus $status
+     * @return  $this
      */
     public function setStatus(OrderStatus $status)
     {
         $this->status = $status;
+
+        return $this;
+
     }
 
     /**

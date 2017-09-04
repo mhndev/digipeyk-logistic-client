@@ -1,6 +1,7 @@
 <?php
 namespace mhndev\digipeykLogisticClient;
 
+use mhndev\digipeykLogisticClient\exceptions\CanNotConnectToDigipeykServer;
 use mhndev\digipeykLogisticClient\interfaces\iClient;
 use mhndev\digipeykLogisticClient\interfaces\iEntityOrder;
 use mhndev\digipeykLogisticClient\interfaces\iHttpClient;
@@ -37,10 +38,14 @@ class ClientPersist extends Client implements iClient
     /**
      * @param iEntityOrder $order
      * @return iEntityOrder
+     * @throws CanNotConnectToDigipeykServer
      */
     function createOrder(iEntityOrder $order)
     {
         $result = parent::createOrder($order);
+        if (empty($result)){
+            throw new CanNotConnectToDigipeykServer();
+        }
         $order->setIdentifier($result['identifier']);
 
         return $this->orderRepository->insert($order);
@@ -49,10 +54,14 @@ class ClientPersist extends Client implements iClient
     /**
      * @param iEntityOrder $order
      * @return iEntityOrder
+     * @throws CanNotConnectToDigipeykServer
      */
     function cancelOrder(iEntityOrder $order)
     {
-        parent::cancelOrder($order);
+        $result = parent::cancelOrder($order);
+        if (empty($result)){
+            throw new CanNotConnectToDigipeykServer();
+        }
 
         $this->orderRepository->update($order);
     }
@@ -60,12 +69,15 @@ class ClientPersist extends Client implements iClient
     /**
      * @param iEntityOrder $order
      * @return iEntityOrder
+     * @throws CanNotConnectToDigipeykServer
      */
     function editOrder(iEntityOrder $order)
     {
-        $updatedOrder = parent::editOrder($order);
-
-        $this->orderRepository->update($updatedOrder);
+        $result = parent::editOrder($order);
+        if (empty($result)){
+            throw new CanNotConnectToDigipeykServer();
+        }
+        $this->orderRepository->update($order);
     }
 
     /**

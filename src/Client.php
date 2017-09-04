@@ -32,7 +32,7 @@ class Client implements iClient
     const endpoints =  [
         'createOrder'     => 'https://digipeyk.com/services/digipeyk/order',
         'cancelOrder'     => 'https://digipeyk.com/services/digipeyk/order/cancel-customer/',
-        'editOrder'       => 'https://digipeyk.com/services/digipeyk/order',
+        'editOrder'       => 'https://digipeyk.com/services/digipeyk/order/',
         'listMyOrders'    => 'https://digipeyk.com/services/digipeyk/order/me',
         'listMyAddresses' => 'https://digipeyk.com/services/digipeyk/address/me'
     ];
@@ -86,18 +86,22 @@ class Client implements iClient
 
     /**
      * @param iEntityOrder $order
-     * @return iEntityOrder
+     * @return array
      */
     function editOrder(iEntityOrder $order)
     {
+        /** @var array $response */
         $response = $this->httpClient->sendRequest(
             'PUT',
-            self::endpoints[__METHOD__],
-            json_encode($order->toArray()),
-            ['Content-type' => 'application/json', 'Authorization' => 'Bearer ' . $this->getToken()]
+            self::endpoints[__FUNCTION__] . $order->getIdentifier(),
+            json_encode($order->toDigipeykArray()),
+            [
+                'Content-Type' => 'application/json', 'Authorization' => 'Bearer ' . $this->getToken(),
+                'Accept' => 'application/json'
+            ]
         );
 
-        return EntityOrder::fromOptions($this->getJsonResult($response));
+        return $response;
     }
 
     /**
