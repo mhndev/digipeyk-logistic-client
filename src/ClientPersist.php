@@ -43,9 +43,6 @@ class ClientPersist extends Client implements iClient
     function createOrder(iEntityOrder $order)
     {
         $result = parent::createOrder($order);
-        if (empty($result)){
-            throw new CanNotConnectToDigipeykServer();
-        }
         $order->setIdentifier($result['identifier']);
 
         return $this->orderRepository->insert($order);
@@ -58,10 +55,7 @@ class ClientPersist extends Client implements iClient
      */
     function cancelOrder(iEntityOrder $order)
     {
-        $result = parent::cancelOrder($order);
-        if (empty($result)){
-            throw new CanNotConnectToDigipeykServer();
-        }
+        parent::cancelOrder($order);
 
         $this->orderRepository->update($order);
     }
@@ -73,10 +67,8 @@ class ClientPersist extends Client implements iClient
      */
     function editOrder(iEntityOrder $order)
     {
-        $result = parent::editOrder($order);
-        if (empty($result)){
-            throw new CanNotConnectToDigipeykServer();
-        }
+        parent::editOrder($order);
+
         $this->orderRepository->update($order);
     }
 
