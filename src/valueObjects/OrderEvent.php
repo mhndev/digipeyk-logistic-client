@@ -14,6 +14,8 @@ class OrderEvent implements iValueObject
 
     const EVENT_ORDER_ASSIGNED  = 'order_assigned';
 
+    const EVENT_ORDER_ACCEPTED = 'order_accepted';
+
     const EVENT_ORDER_PICKED_UP = 'order_pick_up';
 
     const EVENT_ORDER_DELIVERED = 'order_delivered';
@@ -122,7 +124,7 @@ class OrderEvent implements iValueObject
     {
         return [
             'name' => $this->getName(),
-            'date' => $this->getDate()
+            'date' => self::dateTimePreview($this->getDate())
         ];
     }
 
@@ -145,6 +147,22 @@ class OrderEvent implements iValueObject
 
         return $result;
     }
+
+    /**
+     * @param \DateTime|null $date
+     * @return array
+     */
+    public static function dateTimePreview(\DateTime $date = null)
+    {
+        if (isset($date)) {
+            return [
+                'date' => $d = $date->format('Y-m-d H:i:s'),
+                'timestamp' => $date->getTimestamp(),
+                'timezone' => $date->getTimezone(),
+                'preview' => '{{ ' . $d . ' | date }}'
+            ];
+        }
+}
 
 
 }

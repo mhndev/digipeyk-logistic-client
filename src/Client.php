@@ -30,11 +30,12 @@ class Client implements iClient
      * array
      */
     const endpoints =  [
-        'createOrder'     => 'https://digipeyk.com/services/digipeyk/order',
-        'cancelOrder'     => 'https://digipeyk.com/services/digipeyk/order/cancel-customer/',
-        'editOrder'       => 'https://digipeyk.com/services/digipeyk/order/',
-        'listMyOrders'    => 'https://digipeyk.com/services/digipeyk/order/me',
-        'listMyAddresses' => 'https://digipeyk.com/services/digipeyk/address/me'
+        'createOrder'     => 'https://stg.digipeyk.com/services/digipeyk/order',
+        'cancelOrder'     => 'https://stg.digipeyk.com/services/digipeyk/order/cancel-customer/',
+        'editOrder'       => 'https://stg.digipeyk.com/services/digipeyk/order/',
+        'listMyOrders'    => 'https://stg.digipeyk.com/services/digipeyk/order/me',
+        'listMyAddresses' => 'https://stg.digipeyk.com/services/digipeyk/address/me',
+        'getOrdersById'   => 'https://stg.digipeyk.com/services/digipeyk/order/search'
     ];
 
 
@@ -193,6 +194,30 @@ class Client implements iClient
             ]
         );
 
+        return $response;
+    }
+
+    /**
+     * @param array $ids
+     * @return mixed
+     */
+    function getOrdersById(array $ids)
+    {
+
+        /** @var array $response */
+        $response = $this->httpClient->sendRequest(
+            'GET',
+            self::endpoints[__FUNCTION__],
+            '',
+            [
+                'Content-Type' => 'application/json', 'Authorization' => 'Bearer ' . $this->getToken(),
+                'Accept' => 'application/json'
+            ],
+            [
+                'ids' => $ids,
+            ]
+        );
+        
         return $response;
     }
 }

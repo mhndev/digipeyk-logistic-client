@@ -53,4 +53,10 @@ interface iClient
      */
     function listMyAddresses(int $perPage = 10, int $page = 1 , $sort = 'created_at');
 
+    /**
+     * @param array $ids
+     * @return mixed
+     */
+    function getOrdersById(array $ids);
+
 }
