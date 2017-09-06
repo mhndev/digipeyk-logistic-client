@@ -217,6 +217,7 @@ class Client implements iClient
                 'ids' => $ids,
             ]
         );
+
         
         return $response;
     }
